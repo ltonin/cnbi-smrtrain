@@ -144,12 +144,12 @@ end
 % Find the labels of EEG samples (time domain)
 data.lbl_sample = zeros(1, size(data.eeg,1));
 data.trial_idx = zeros(1, size(data.eeg,1));
-printf('[eegc3_smr_simloop] Labeling raw EEG data according to protocol');
+printf('[eegc3_smr_simloop] Labeling raw EEG data according to protocol\n');
 data = eegc3_smr_labelEEG(data, protocol_label, bci.settings);
 
  % Calculate spectrum
  % Use only the pure MI trials, not the whole recording
- printf('[eegc3_smr_simloop] Calculating and plotting EEG spectrum');
+ printf('[eegc3_smr_simloop] Calculating and plotting EEG spectrum\n');
  [bci.MI bci.nonMI info] = ...
      eegc3_smr_spectrum(data.eeg(:,1:end-1), data.trial_idx,...
      data.lbl_sample, 1, bci.settings, protocol_label, taskset);
