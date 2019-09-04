@@ -18,7 +18,7 @@ function [MI nMI info] = eegc3_smr_spectrum(eeg, trial_idx, labels, winsize, set
 %
 % Outputs:
 %
-
+info = [];
 % Check integrity if loaded EEG data according to settings
 if(size(eeg,2) ~= settings.acq.channels_eeg)
     disp(['[eegc3_smr_spectrum] Number of channels in "settings" is '...
@@ -50,15 +50,6 @@ switch(protocol)
         return;
 end
 
-% In the case of WP4 online data, we only have 1 class, either 770 or 769
-if isfield(settings.modules,'wp4')
-    if isfield(settings.modules.wp4,'datatype')
-        if settings.modules.wp4.datatype
-            %taskset.cues = setdiff(taskset.cues,783);
-            %taskset.cues = setdiff(taskset.cues,786);
-        end
-    end
-end
 
 for ch = 1:settings.acq.channels_eeg
     chspectrum = cell(1, length(taskset.cues));

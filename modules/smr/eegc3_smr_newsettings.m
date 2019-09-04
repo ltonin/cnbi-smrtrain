@@ -28,7 +28,7 @@ settings.acq.channel_lbl = {'Fz', 'FC3', 'FC1', 'FCz', 'FC2', 'FC4', 'C3',...
                             'C1', 'Cz', 'C2', 'C4', 'Fp1', 'CP1', 'CPz', ...
                             'CP2', 'Fp2'};
                          
-settings.acq.channels_eeg = length(settings.acq.channels_lbl);
+settings.acq.channels_eeg = length(settings.acq.channel_lbl);
 settings.acq.channels_tri = 1;
 
 settings.modules.smr.options.prep.dc  			= false;
