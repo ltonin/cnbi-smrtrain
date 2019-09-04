@@ -68,7 +68,7 @@ settings.modules.smr.psd.ovl 		= 0.50;
 
 settings.modules.smr.dp.threshold	= 0.50;
 
-settings.modules.smr.gau.somunits 	= [1 1]; % QDA-style
+settings.modules.smr.gau.somunits 	= [2 2]; % [1 1] QDA-style
 settings.modules.smr.gau.sharedcov 	= 'f'; % No difference anyway
 settings.modules.smr.gau.epochs 	= 20;
 settings.modules.smr.gau.mimean		= 0.0001;
