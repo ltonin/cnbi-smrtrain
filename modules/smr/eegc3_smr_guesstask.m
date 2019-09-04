@@ -51,29 +51,13 @@ else
         
         % New loop eegc3 protocols
         if(has.targetmiss || has.targethit)
-            if isfield(settings.modules,'wp4')
-                protocol_label = 'WP4_Online_eegc3';
-                printf('WP4 online [eegc v3]\n');
-                resetevents = ...
-                    [protocol.cfeedback protocol.targethit protocol.targetmiss];
-            else
-                protocol_label = 'SMR_Online_eegc3';
-                printf('SMR online [eegc v3]\n');
-                resetevents = ...
-                    [protocol.cfeedback protocol.targethit protocol.targetmiss];
-            end
+			protocol_label = 'SMR_Online_eegc3';
+        	printf('SMR online [eegc v3]\n');
+        	resetevents = ...
+        	    [protocol.cfeedback protocol.targethit protocol.targetmiss];
         else
-
-            if(settings.modules.wp4.datatype==1) % Hack for WP4 with only timeouts
-                protocol_label = 'WP4_Online_eegc3';
-                printf('WP4 online [eegc v3]\n');
-                resetevents = ...
-                    [protocol.cfeedback protocol.targethit protocol.targetmiss];
-            else
-                protocol_label = 'SMR_Offline_eegc3';
-                printf('SMR offline [eegc v3]\n');
-            end
-
+			protocol_label = 'SMR_Offline_eegc3';
+			printf('SMR offline [eegc v3]\n');
         end
     else
         
