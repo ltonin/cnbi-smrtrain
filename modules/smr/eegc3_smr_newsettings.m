@@ -22,7 +22,13 @@ function settings = eegc3_smr_newsettings(settings)
 % Default gTec SMR BCI
 settings.acq.id = 501;
 settings.acq.sf = 512;
-settings.acq.channels_eeg = 16;
+
+% gUSBAmp - Motor Imagery - Cybathlon 14 EEG + 2 EOG (Fp1 and Fp2)
+settings.acq.channel_lbl = {'Fz', 'FC3', 'FC1', 'FCz', 'FC2', 'FC4', 'C3',...
+                            'C1', 'Cz', 'C2', 'C4', 'Fp1', 'CP1', 'CPz', ...
+                            'CP2', 'Fp2'};
+                         
+settings.acq.channels_eeg = length(settings.acq.channels_lbl);
 settings.acq.channels_tri = 1;
 
 settings.modules.smr.options.prep.dc  			= false;
@@ -42,11 +48,14 @@ settings.modules.smr.options.classification.sep  	= false;
 settings.modules.smr.options.classification.single 	= false;
 
 settings.modules.wp4.datatype = 0;
+ 
+% settings.modules.smr.montage = 				[0 0 1 0 0; ...
+% 	 						1 1 1 1 1; ...
+% 	 						1 1 1 1 1;...
+%      							1 1 1 1 1];
 
-settings.modules.smr.montage = 				[0 0 1 0 0; ...
-	 						1 1 1 1 1; ...
-	 						1 1 1 1 1;...
-     							1 1 1 1 1];
+settings.modules.smr.montage = eegc3_channels2montage(settings.acq.channel_lbl);
+
 settings.modules.smr.laplacian = ...
 	eegc3_montage(settings.modules.smr.montage);
 

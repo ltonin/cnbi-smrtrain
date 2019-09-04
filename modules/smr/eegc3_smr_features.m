@@ -41,7 +41,9 @@ if(iscell(frqs))
 		end	
 	else
 		for ch = channels
-			fvector = [fvector; eegc3_psd(data(:, ch), frqs{ch}, fs, win, ovl)];
+			if ((sum(isnan(data(:, ch))) == 0) && (sum(isinf(data(:, ch))) == 0))
+				fvector = [fvector; eegc3_psd(data(:, ch), frqs{ch}, fs, win, ovl)];
+			end
 		end	
 	end
 else
@@ -53,7 +55,9 @@ else
 		end
 	else
 		for ch = channels 
-			fvector(ch, :) = eegc3_psd(data(:, ch), frqs, fs, win, ovl);
+			if ((sum(isnan(data(:, ch))) == 0) && (sum(isinf(data(:, ch))) == 0))
+				fvector(ch, :) = eegc3_psd(data(:, ch), frqs, fs, win, ovl);
+			end
 		end
 	end
 end
