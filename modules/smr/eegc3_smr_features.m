@@ -29,7 +29,7 @@ function fvector = eegc3_smr_features(data, fs, frqs, win, ovl, channels)
 if(isempty(channels))
 	channels = 1:1:size(data, 2);
 end
-fvector = zeros(size(data, 2), length(frqs));
+fvector = nan(size(data, 2), length(frqs));
 
 if(iscell(frqs))
 	% Online use: chs/freqs are "sparse", return "sparse" structure
@@ -48,7 +48,7 @@ if(iscell(frqs))
 	end
 else
 	% Offline use: all the chs for all the freqs
-	fvector = zeros(size(data, 2), length(frqs));
+	fvector = nan(size(data, 2), length(frqs));
 	if(isempty(win) | isempty(ovl))
 		for ch = channels
 			fvector(ch, :) = eegc3_bp(data(:, ch), fs, frqs);
