@@ -1,10 +1,9 @@
-function [gau, performace] = eegc3_train_gau(settings, data, labels, trial, has_init)
+function [gau, performace] = eegc3_train_gau_full(settings, data, labels, trial, has_init)
 
-% function gau = eegc3_train_gau(settings, data, labels, has_init)
+% function gau = eegc3_train_gau_full(settings, data, labels, has_init)
 %
-% Function to train a CNBI Gaussian Classifier. From the input data, 
-% the first 70% is used for training and the remaining 30% for testing. No
-% shuffliung of data is taking place. Function utlilizes the
+% Function to train a CNBI Gaussian Classifier. ALL the input data, 
+% is used for training. Function utlilizes the
 % gauInitiallization, gauUpdate, gauEval functions.
 %
 % Inputs:
@@ -33,31 +32,6 @@ if(nargin < 4)
     has_init = false;
 end
 
-% % Find number of runs included
-% NRun = max(trial(:,1));
-% 
-% if(NRun > 1)
-%     
-%     % Split by run, keep last run for testing always
-%     Pind = find(ismember(trial(:,1),[1:NRun-1]));
-%     Tind = find(trial(:,1)==NRun);
-%     
-%     disp(['[eegc3_train_gau] Using ' num2str(NRun) ': Training set: first ' ...
-%         num2str(NRun-1) ' runs, Testing set: last run']);
-% else
-%     
-%     
-%     % There is only one run, split by trials
-%     NTrial = max(trial(:,2));
-%     NTrain = floor(0.70*NTrial);
-%     
-%     Pind = find(ismember(trial(:,2),[1:NTrain]));
-%     Tind = find(ismember(trial(:,2),[NTrain+1:NTrial]));
-%     
-%     disp(['[eegc3_train_gau] Using a single run. Trainig set: first ' ...
-%         num2str(NTrain) ' trials, Testing set: last ' ...
-%         num2str(NTrial-NTrain) ' trials']);
-% end
 
 if(length(unique(labels))==2) % 2-class case
     % Split possible 50/50
@@ -75,14 +49,9 @@ if(length(unique(labels))==2) % 2-class case
     bdata = data(dataind,:);
     blabels = labels(dataind,:);
 
-    % Random permutation
-    brand = randperm(length(blabels));
-    blabels = blabels(brand);
-    bdata = bdata(brand,:);
-
-    % Now split to training and testing set, 70/30 split
-    Pind = [1:round(0.7*length(blabels))];
-    Tind = [max(Pind)+1:length(blabels)];
+    % Using all the data for training (and testing)
+    Pind = 1:length(blabels);
+    Tind = Pind;
 
     P = bdata(Pind,:);
     Pk = blabels(Pind,:);
@@ -111,15 +80,7 @@ if(length(unique(labels))==2) % 2-class case
         disp(['[eegc3_train_gau] Warning: Testing samples seem to be too unbalanced...']);
     end
 else
-    % Split to training and testing set, 70/30 split
-    Pind = [1:round(0.7*length(labels))];
-    Tind = [max(Pind)+1:length(labels)];
-
-    P = data(Pind,:);
-    Pk = labels(Pind,:);
-
-    T = data(Tind,:);
-    Tk = labels(Tind,:);
+    error('[eegc3_train_gau] Error: More than two classes provided...');
 end
 
 gau = {};
@@ -160,11 +121,11 @@ for ep = 1:settings.modules.smr.gau.epochs
 	ccP(ep) = eegc3_channel_capacity(1 - perfP(ep), rejP(ep), 2);
 	ccT(ep) = eegc3_channel_capacity(1 - perfT(ep), rejT(ep), 2);
 	
-	fprintf('  Epoch %d/%d: %.3f/%.3f %.3f/%.3f\n', ...
-		ep, settings.modules.smr.gau.epochs, ...
-		perfP(ep), rejP(ep), perfT(ep), rejT(ep));
-	
-	plot_GAU(settings, 60, perfP, rejP, perfT, rejT, ccP, ccT);
+% 	fprintf('  Epoch %d/%d: %.3f/%.3f %.3f/%.3f\n', ...
+% 		ep, settings.modules.smr.gau.epochs, ...
+% 		perfP(ep), rejP(ep), perfT(ep), rejT(ep));
+% 	
+% 	plot_GAU(settings, 60, perfP, rejP, perfT, rejT, ccP, ccT);
 
 
 	if(settings.modules.smr.gau.terminate)
