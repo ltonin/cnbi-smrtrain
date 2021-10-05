@@ -25,13 +25,13 @@ settings.acq.sf = 512;
 
 % gUSBAmp - Motor Imagery - Cybathlon 14 EEG + 2 EOG (Fp1 and Fp2)
 settings.acq.channel_lbl = {'Fz', 'FC3', 'FC1', 'FCz', 'FC2', 'FC4', 'C3',...
-                            'C1', 'Cz', 'C2', 'C4', 'Fp1', 'CP1', 'CPz', ...
-                            'CP2', 'Fp2'};
+				            'C1', 'Cz', 'C2', 'C4', 'Fp1', 'CP1', 'CPz', ...
+                           'CP2', 'Fp2'};
                         
 % gUSBAmp - Motor Imagery - 16 EEG
-%settings.acq.channel_lbl = {'Fz', 'FC3', 'FC1', 'FCz', 'FC2', 'FC4', 'C3',...
-%                            'C1', 'Cz', 'C2', 'C4', 'CP3', 'CP1', 'CPz', ...
-%                            'CP2', 'CP4'};
+% settings.acq.channel_lbl = {'Fz', 'FC3', 'FC1', 'FCz', 'FC2', 'FC4', 'C3',...
+%                             'C1', 'Cz', 'C2', 'C4', 'CP3', 'CP1', 'CPz', ...
+%                             'CP2', 'CP4'};
                          
 settings.acq.channels_eeg = length(settings.acq.channel_lbl);
 settings.acq.channels_tri = 1;
@@ -74,7 +74,7 @@ settings.modules.smr.psd.ovl 		= 0.50;
 settings.modules.smr.dp.threshold	= 0.50;
 
 settings.modules.smr.gau.somunits 	= [2 2]; % [1 1] QDA-style
-settings.modules.smr.gau.sharedcov 	= 'f'; % No difference anyway
+settings.modules.smr.gau.sharedcov 	= 't'; % No difference anyway
 settings.modules.smr.gau.epochs 	= 20;
 settings.modules.smr.gau.mimean		= 0.0001;
 settings.modules.smr.gau.micov		= 0.00001;

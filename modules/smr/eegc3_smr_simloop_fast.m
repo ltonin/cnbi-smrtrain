@@ -90,6 +90,15 @@ end
 % Import all the data we need
 printf('[eegc3_smr_simloop] Loading GDF/TXT files... ');
 [data.eeg, data.hdr] = sload(filexdf);
+
+% Removing EOG events (1670/1672) since they can occur in the same frame of
+% other events (and the script crashes)
+idx_events = data.hdr.EVENT.TYP ~= 1670 & data.hdr.EVENT.TYP ~= 1672;
+
+data.hdr.EVENT.TYP = data.hdr.EVENT.TYP(idx_events);
+data.hdr.EVENT.POS = data.hdr.EVENT.POS(idx_events);
+data.hdr.EVENT.DUR = data.hdr.EVENT.DUR(idx_events);
+
 if(~isempty(bci.trace.eegc3_smr_simloop.filetxt))
 	data.aprobs = importdata(filetxt);
 	data.cprobs = data.aprobs(:, 1:2);
@@ -144,12 +153,12 @@ end
 % Find the labels of EEG samples (time domain)
 data.lbl_sample = zeros(1, size(data.eeg,1));
 data.trial_idx = zeros(1, size(data.eeg,1));
-printf('[eegc3_smr_simloop] Labeling raw EEG data according to protocol');
+printf('[eegc3_smr_simloop] Labeling raw EEG data according to protocol\n');
 data = eegc3_smr_labelEEG(data, protocol_label, bci.settings);
 
 % Calculate spectrum
 % Use only the pure MI trials, not the whole recording
-printf('[eegc3_smr_simloop] Calculating and plotting EEG spectrum');
+printf('[eegc3_smr_simloop] Calculating and plotting EEG spectrum\n');
 %[bci.MI bci.nonMI info] = ...
 %    eegc3_smr_spectrum(data.eeg(:,1:end-1), data.trial_idx,...
 %    data.lbl_sample, 1, bci.settings, protocol_label, taskset);
@@ -202,7 +211,7 @@ if(isempty(filetxt) == false)
 		align.eeg, align.prb, align.delta);
 
 	if(align.delta)
-		printf('[eegc3_smr_simloop] Error: mismatch detected');
+		printf('[eegc3_smr_simloop] Error: mismatch detected\n');
 		align.notaligned = true;
 	end
 end
@@ -237,7 +246,8 @@ for i = 1:1:bci.framet
             end
         end
 	elseif(trgdetect.tnow > 1)
-		printf('[eegc3_smr_simloop] Found >1 trigger in a single frame!\n');
+		printf('[eegc3_smr_simloop] HERE Found >1 trigger in a single frame!\n');
+        keyboard
 		return;
     end
     

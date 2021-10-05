@@ -95,6 +95,7 @@ for i=1:FileNum
             % extract features
             bci = eegc3_wp4_simloop_fast(Paths{i},[],settings,[],[]);
         else
+            disp('using eegc3_smr_simloop_fast')
             bci = eegc3_smr_simloop_fast(Paths{i},[],settings,[],[]);
         end
     else
@@ -113,20 +114,20 @@ for i=1:FileNum
 
     if(strcmp(prot_label,'SMR_Online_eegc3'))
         % Performance of different classes
-        corr = zeros(length(tkset.cues),1);
-        err = zeros(length(tkset.cues),1);
-        for c = 1:length(tkset.cues)
-            % Find cues of this type
-            cind = find(bci.lbl==tkset.cues(c));
-            resind = cind+2;
-            corr(c) = sum(bci.lbl(resind)==897);
-            err(c) = sum(bci.lbl(resind)==898);
-            disp(['[eegc3_smr_extract] Class ' num2str(tkset.cues(c))...
-                ': ' num2str(corr(c)) '/' num2str(corr(c)+err(c)) ', '...
-                num2str(100*corr(c)/(corr(c)+err(c))) ' %']);
-        end
-        disp(['[eegc3_smr_extract] Total: ' num2str(100*sum(corr)/...
-            (sum(corr)+sum(err))) ' %' ]);
+%         corr = zeros(length(tkset.cues),1);
+%         err = zeros(length(tkset.cues),1);
+%         for c = 1:length(tkset.cues)
+%             % Find cues of this type
+%             cind = find(bci.lbl==tkset.cues(c));
+%             resind = cind+2;
+%             corr(c) = sum(bci.lbl(resind)==897);
+%             err(c) = sum(bci.lbl(resind)==898);
+%             disp(['[eegc3_smr_extract] Class ' num2str(tkset.cues(c))...
+%                 ': ' num2str(corr(c)) '/' num2str(corr(c)+err(c)) ', '...
+%                 num2str(100*corr(c)/(corr(c)+err(c))) ' %']);
+%         end
+%         disp(['[eegc3_smr_extract] Total: ' num2str(100*sum(corr)/...
+%             (sum(corr)+sum(err))) ' %' ]);
     end
     
     
